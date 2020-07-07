@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lmu package &#8212; NengoLMU  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="setup module" href="setup.html" />
+    <link rel="prev" title="lmu" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="lmu-package">
+<h1>lmu package<a class="headerlink" href="#lmu-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-lmu.lmu">
+<span id="lmu-lmu-module"></span><h2>lmu.lmu module<a class="headerlink" href="#module-lmu.lmu" title="Permalink to this headline">¶</a></h2>
+<p>Core classes for the LMU package, including but not limited to
+the cell structure, differential equation, and gating.</p>
+<dl class="py class">
+<dt id="lmu.lmu.InputScaled">
+<em class="property">class </em><code class="sig-prename descclassname">lmu.lmu.</code><code class="sig-name descname">InputScaled</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmu.lmu.InputScaled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.ops.init_ops_v2.Initializer</span></code></p>
+<p>Divides a constant value by the incoming dimensionality.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="lmu.lmu.LMUCell">
+<em class="property">class </em><code class="sig-prename descclassname">lmu.lmu.</code><code class="sig-name descname">LMUCell</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmu.lmu.LMUCell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.engine.base_layer.Layer</span></code></p>
+<p>A layer of trainable low-dimensional delay systems.</p>
+<p>Each unit buffers its encoded input
+by internally representing a low-dimensional
+(i.e., compressed) version of the input window.</p>
+<p>Nonlinear decodings of this representation
+provide computations across the window, such
+as its derivative, energy, median value, etc (*).
+Note that decoders can span across all of the units.</p>
+<p>By default the window lengths are trained via backpropagation,
+as well as the encoding and decoding weights.</p>
+<p>Optionally, the state-space matrices that implement
+the low-dimensional delay system can be trained as well,
+but these are shared across all of the units in the layer.</p>
+<p>(*) Voelker and Eliasmith (2018). Improving spiking dynamical
+networks: Accurate delays, higher-order synapses, and time cells.
+Neural Computation, 30(3): 569-609.</p>
+<p>(*) Voelker and Eliasmith. “Methods and systems for implementing
+dynamic neural networks.” U.S. Patent Application No. 15/243,223.
+Filing date: 2016-08-22.</p>
+<dl class="py method">
+<dt id="lmu.lmu.LMUCell.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_shape</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmu.lmu.LMUCell.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes various network parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="lmu.lmu.LMUCell.call">
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputs</span></em>, <em class="sig-param"><span class="n">states</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmu.lmu.LMUCell.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains the logic for one LMU step calculation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="lmu.lmu.LMUCell.get_config">
+<code class="sig-name descname">get_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lmu.lmu.LMUCell.get_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overrides the tensorflow get_config function.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="lmu.lmu.LMUCellGating">
+<em class="property">class </em><code class="sig-prename descclassname">lmu.lmu.</code><code class="sig-name descname">LMUCellGating</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmu.lmu.LMUCellGating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.engine.base_layer.Layer</span></code></p>
+<p>Variant of LMUCell that supports gating mechanisms.</p>
+<dl class="py method">
+<dt id="lmu.lmu.LMUCellGating.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_shape</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmu.lmu.LMUCellGating.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes various network parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="lmu.lmu.LMUCellGating.call">
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputs</span></em>, <em class="sig-param"><span class="n">states</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmu.lmu.LMUCellGating.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains the logic for one LMU step calculation.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="lmu.lmu.LMUCellODE">
+<em class="property">class </em><code class="sig-prename descclassname">lmu.lmu.</code><code class="sig-name descname">LMUCellODE</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmu.lmu.LMUCellODE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.engine.base_layer.Layer</span></code></p>
+<p>Variant of LMUCell that supports backprop through the ODE solver.</p>
+<dl class="py method">
+<dt id="lmu.lmu.LMUCellODE.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_shape</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmu.lmu.LMUCellODE.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes various network parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="lmu.lmu.LMUCellODE.call">
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputs</span></em>, <em class="sig-param"><span class="n">states</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lmu.lmu.LMUCellODE.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains the logic for one LMU step calculation.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="lmu.lmu.Legendre">
+<em class="property">class </em><code class="sig-prename descclassname">lmu.lmu.</code><code class="sig-name descname">Legendre</code><a class="headerlink" href="#lmu.lmu.Legendre" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.ops.init_ops_v2.Initializer</span></code></p>
+<p>Initializes weights using the Legendre polynomials.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-lmu.version">
+<span id="lmu-version-module"></span><h2>lmu.version module<a class="headerlink" href="#module-lmu.version" title="Permalink to this headline">¶</a></h2>
+<p>LMU version information.</p>
+<p>We use semantic versioning (see <a class="reference external" href="http://semver.org/">http://semver.org/</a>).
+and conform to PEP440 (see <a class="reference external" href="https://www.python.org/dev/peps/pep-0440/">https://www.python.org/dev/peps/pep-0440/</a>).
+‘.devN’ will be added to the version unless the code base represents
+a release version. Release versions are git tagged with the version.</p>
+</div>
+<div class="section" id="module-lmu">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lmu" title="Permalink to this headline">¶</a></h2>
+<p>LMU provides a package for deep learning with Legendre Memory Units.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">NengoLMU</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">lmu</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">lmu package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">lmu</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">lmu</a></li>
+      <li>Next: <a href="setup.html" title="next chapter">setup module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, arvoelke samir-alazzam.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/lmu.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
