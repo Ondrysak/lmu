@@ -10,7 +10,8 @@ Welcome to NengoLMU's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   modules
+   getting-started
+   examples
 
 Indices and tables
 ==================
